@@ -1,22 +1,22 @@
-import cv2 as cv
-import logger
+from filters import gray_color as gc, blur as gb, dilate_effect as de, zeteam as zt
+import os
 
-def grayscale():
-    image = cv.imread('data/imgs/img1.png')
-    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    filename = 'data/output/graySaved.jpg'
-    cv.imwrite(filename, gray)
-    logger.logs(f'<{filename}> Successfully saved')
+# DETECTION DES FICHIERS IMAGE ------------------
+file_types = [".jpg",".png",]
+files = [entry.name for entry in os.scandir('data/imgs/.') if entry.is_file() and os.path.splitext(entry.name)[1] in file_types]
+print(f'Les fichiers transformables sont : {files}')
+# ------------------------------------------------
 
-# grayscale()
+def call_function():
+    gc.grayscale(image)
+    de.dilate(image)
+    gb.gaussian_blur(image)
+    zt.ze_team(image,'coucou')
 
-def gaussian_blur():
-    image = cv.imread('data/imgs/img1.png')
-    blur = cv.GaussianBlur(image,(31,31),0)
-    filename = 'data/output/blurSaved.jpg'
-    cv.imwrite(filename, blur)
-    logger.logs(f'<{filename}> Successfully saved')
 
-gaussian_blur()
+
+for i in files:
+    image = i
+    call_function()
 
 

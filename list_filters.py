@@ -23,6 +23,9 @@ def disp_filters():
         elif image == 'grayscale.py':
             description = 'Apply a black and white effect on pictures'
             print(f'{image.replace(".py", "")}' + ' >> ' + f'{description}')
+        elif image == 'message.py':
+            description = 'Enter a message to display on pictures (works with a string to configure the message)'
+            print(f'{image.replace(".py", "")}' + ' >> ' + f'{description}')
         elif image == 'zeteam.py':
             description = 'Apply our team effect on pictures (Display our names on the pictures)'
             print(f'{image.replace(".py", "")}' + ' >> ' + f'{description}')

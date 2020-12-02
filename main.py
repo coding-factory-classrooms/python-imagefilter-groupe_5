@@ -2,7 +2,9 @@ import list_filters as lf
 import os
 import sys
 import logger
-from filters import grayscale as gc, dilate_effect as de, blur as gb, zeteam as zt
+from filters import grayscale as gc, dilate_effect as de, blur as gb, zeteam as zt, message as msg
+
+print('')
 
 # DETECTION DES FICHIERS IMAGE ------------------
 file_types = [".jpg",".png",]
@@ -11,7 +13,6 @@ files = [entry.name for entry in os.scandir('data/imgs/.') if entry.is_file() an
 # DETECTION DES FILTRES --------------------------
 filters_types = [".py"]
 filtres = [entry.name for entry in os.scandir('filters/') if entry.is_file() and os.path.splitext(entry.name)[1] in filters_types]
-print(filtres)
 # --------------------------------------------------
 def help():
     print('usage : imagefilter\n -h >> Display informations about the function\n -i [folder] >> Enter a folder in pair with this argument to add it as image "image picker"\n -o [folder] >> Enter a folder in pair with this argument to add it as output folder (for saving images)\n --list-filters >> Display all available filters to apply\n --filters [filters] >> Enter filters in pair with this argument to select wanted effect to apply\n Example: --filter "blur:3|dilate:5|grayscale"')
@@ -21,12 +22,8 @@ def help():
 #     gc.grayscale(image)
 #     de.dilate(image)
 #     gb.gaussian_blur(image)
-#     zt.ze_team(image,'Leonard Allan Mael')
-
-# for i in files:
-#     image = i
-    # print(i)
-
+#     zt.ze_team(image)
+#     msg.message(image, 'coucou')
 
 
 args = sys.argv
@@ -46,20 +43,58 @@ elif args[1] == '--log-file':
         print('Please add an existing log file as argument')
 elif args[1] == '-h':
     help()
-elif '--filters' in args:
-    pos = args.index('--filters')
-    if '--filters' == args[-1]:
-        print('Please add filter to apply')
-    else:
-        id = args[pos+1]
-        filtre = id.split('|')
-        for check in filtre:
-            print(check)
-            for f in filtres:
-                if check in f:
-                    print('coucou')
-                    break
-                else:
-                    print('test')
-                    break
-
+elif '-i' in args:
+    nxt_pos = args.index('-i')
+    try:
+        if not args[nxt_pos + 1]:
+            print('Please enter an input as images folder')
+        else:
+            print(f'{args[nxt_pos + 1]}')
+    except IndexError:
+        print('Please enter an input as images folder')
+    if '-o' in args:
+        next_pos = args.index('-o')
+        try:
+            if not args[next_pos + 1]:
+                print('Please enter an output folder to save images')
+            else:
+                print(f'{args[next_pos + 1 ]}')
+        except IndexError:
+            print('Please enter an output folder to save images')
+        if '--filters' in args:
+            pos = args.index('--filters')
+            if '--filters' == args[-1]:
+                print('Please add filter to apply')
+            else:
+                id = args[pos + 1]
+                filtre = id.split('|')
+                for item in filtre:
+                    if item.startswith('grayscale'):
+                        print('grayscale done')
+                    elif item.startswith('zeteam'):
+                        print('zeteam done')
+                    elif item.startswith('blur'):
+                        number = item.split(':')
+                        try:
+                            intensity = int(number[1])
+                            print(f'Intensity of the filter: {intensity}')
+                        except IndexError:
+                            print('Please enter a value as filter intensity')
+                        except ValueError:
+                            print('Please enter an int as filter intensity')
+                    elif item.startswith('dilate'):
+                        number = item.split(':')
+                        try:
+                            intensity = int(number[1])
+                            print(f'Intensity of the filter: {intensity}')
+                        except IndexError:
+                            print('Please enter a value as filter intensity')
+                        except ValueError:
+                            print('Please enter an int as filter intensity')
+                    elif item.startswith('message'):
+                        number = item.split(':')
+                        try:
+                            msg = str(number[1])
+                            print(f'Message of the filter: {msg}')
+                        except IndexError:
+                            print('Please enter a message as filter value')

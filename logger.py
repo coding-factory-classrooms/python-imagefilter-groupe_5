@@ -2,8 +2,8 @@ import time
 
 from art import *
 
-Art = text2art('LOGS')
-print(Art)
+# Art = text2art('LOGS')
+# print(Art)
 
 def logs(log):
     '''
@@ -13,14 +13,16 @@ def logs(log):
     '''
     ts = time.localtime()
     things = f'{time.strftime("%d-%m-%Y | %H:%M:%S", ts)} >> ' + log
-    print(things)
+    # print(things)
     with open("image.log", "a") as file:
         file.write(f'{things}\n')
 
-def open_logs():
+def open_logs(log_file):
     '''
-    Open the log file and print his content
+    Open the log file entered as parameter and print his content
+    :param log_file: log's file to open
     '''
-    with open('image.log','r') as logfile:
+    logs(f'Display all logs in {log_file}')
+    with open(f'{log_file}','r') as logfile:
         content = logfile.read()
         print(content)

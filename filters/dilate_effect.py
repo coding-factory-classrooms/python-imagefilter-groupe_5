@@ -9,7 +9,7 @@ if not os.path.exists(wanted_folder):
     os.mkdir(wanted_folder)
 
 def dilate(image):
-    kernel = numpy.ones((5, 5), numpy.uint8)
+    kernel = numpy.ones((20, 20), numpy.uint8)
     img = cv.imread(f'data/imgs/{image}')
     blur = cv.dilate(img,kernel,iterations=5)
     filename = f'{wanted_folder}{image}_dilate.jpg'

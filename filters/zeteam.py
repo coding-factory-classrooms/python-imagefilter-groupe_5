@@ -10,10 +10,10 @@ if not os.path.exists(wanted_folder):
 
 def ze_team(image, input_txt):
     font = cv.FONT_HERSHEY_SIMPLEX
-    bottomLeftCornerOfText = (300, 300)
-    fontScale = 3
+    bottomLeftCornerOfText = (100, 350)
+    fontScale = 2
     fontColor = (255, 255, 255)
-    lineType = 5
+    lineType = 3
     cv.waitKey(0)
     img = cv.imread(f'data/imgs/{image}')
     txt = cv.putText(img, f'{input_txt}',bottomLeftCornerOfText,font,fontScale,fontColor,lineType)

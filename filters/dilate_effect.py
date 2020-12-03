@@ -1,17 +1,13 @@
-import cv2 as cv
-import logger
+import cv2
+import logger as lg
 import os
 import numpy
 
-wanted_folder = 'data/output/'
-
-if not os.path.exists(wanted_folder):
-    os.mkdir(wanted_folder)
-
-def dilate(image):
-    kernel = numpy.ones((20, 20), numpy.uint8)
-    img = cv.imread(f'data/imgs/{image}')
-    blur = cv.dilate(img,kernel,iterations=5)
-    filename = f'{wanted_folder}{image}_dilate.jpg'
-    cv.imwrite(filename, blur)
-    logger.logs(f'<{filename}> Successfully saved')
+def dilate(img, intensity):
+    try:
+        kernel = numpy.ones((intensity, intensity), numpy.uint8)
+        edited = cv2.dilate(img,kernel,iterations=5)
+        lg.logs(f'Dilate filter applied to picture')
+        return edited
+    except cv2.error:
+        print('Error')

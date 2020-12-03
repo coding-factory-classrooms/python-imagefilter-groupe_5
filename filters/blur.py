@@ -1,15 +1,11 @@
-import cv2 as cv
-import logger
-import os
+import cv2
+import logger as lg
 
-wanted_folder = 'data/output/'
 
-if not os.path.exists(wanted_folder):
-    os.mkdir(wanted_folder)
-
-def gaussian_blur(image):
-    img = cv.imread(f'data/imgs/{image}')
-    blur = cv.GaussianBlur(img,(87,87),0)
-    filename = f'{wanted_folder}{image}_blur.jpg'
-    cv.imwrite(filename, blur)
-    logger.logs(f'<{filename}> Successfully saved')
+def gaussian_blur(img, intensity):
+    try:
+        edited = cv2.GaussianBlur(img,(intensity,intensity),0)
+        lg.logs(f'Blur filter applied to picture')
+        return edited
+    except cv2.error:
+        print('Please select an impair value')

@@ -1,22 +1,18 @@
-import cv2 as cv
-import logger
-import os
+import cv2
+import logger as lg
 import numpy
 
-wanted_folder = 'data/output/'
 
-if not os.path.exists(wanted_folder):
-    os.mkdir(wanted_folder)
-
-def message(image, input_txt):
-    font = cv.FONT_HERSHEY_SIMPLEX
-    bottomLeftCornerOfText = (100, 350)
-    fontScale = 2
-    fontColor = (255, 255, 255)
-    lineType = 3
-    cv.waitKey(0)
-    img = cv.imread(f'data/imgs/{image}')
-    txt = cv.putText(img, f'{input_txt}',bottomLeftCornerOfText,font,fontScale,fontColor,lineType)
-    filename = f'{wanted_folder}{image}_txt.jpg'
-    cv.imwrite(filename, txt)
-    logger.logs(f'<{filename}> Successfully saved')
+def message(img, input_txt):
+    try:
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        bottomLeftCornerOfText = (100, 350)
+        fontScale = 2
+        fontColor = (255, 255, 255)
+        lineType = 3
+        cv2 .waitKey(0)
+        edited = cv2.putText(img, f'{input_txt}',bottomLeftCornerOfText,font,fontScale,fontColor,lineType)
+        lg.logs(f'Message filter applied to picture')
+        return edited
+    except cv2.error:
+        print('Error')

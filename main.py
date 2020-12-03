@@ -37,7 +37,7 @@ args = sys.argv
 if len(args) == 1:
     print('Please add arguments')
 else:
-    if args[1] == '--config-file':
+    if '--config-file' in args:
         conf_file = args.index('--config-file')
         try:
             if not args[conf_file + 1]:
@@ -51,85 +51,84 @@ else:
                 conf_filter = config['filters']['content']
         except IndexError:
             print('Please enter a config file (.ini)')
-    else:
-        if args[1] == '--list-filters':
-            lf.disp_filters()
-        elif args[1] == '--log-file':
-            try:
-                if args[2].endswith('.log'):
-                    logger.open_logs(args[2])
-                else:
-                    print('Please add .log file as argument')
-            except IndexError:
-                print('Please enter logfile name as argument')
-            except FileNotFoundError:
-                print('Please add an existing log file as argument')
-        elif args[1] == '-h':
-            help()
-        elif '-i' in args:
-            nxt_pos = args.index('-i')
-            try:
-                if not args[nxt_pos + 1]:
-                    print('Please enter an input as images folder')
-                else:
-                    print(f'{args[nxt_pos + 1]}')
-                    input_folder = args[nxt_pos + 1]
-            except IndexError:
+    elif args[1] == '--list-filters':
+        lf.disp_filters()
+    elif args[1] == '--log-file':
+        try:
+            if args[2].endswith('.log'):
+                logger.open_logs(args[2])
+            else:
+                print('Please add .log file as argument')
+        except IndexError:
+            print('Please enter logfile name as argument')
+        except FileNotFoundError:
+            print('Please add an existing log file as argument')
+    elif args[1] == '-h':
+        help()
+    elif '-i' in args:
+        nxt_pos = args.index('-i')
+        try:
+            if not args[nxt_pos + 1]:
                 print('Please enter an input as images folder')
-            if '-o' in args:
-                next_pos = args.index('-o')
-                try:
-                    if not args[next_pos + 1]:
-                        print('Please enter an output folder to save images')
-                    else:
-                        print(f'{args[next_pos + 1]}')
-                        output_folder = args[next_pos + 1]
-                        file_types = [".jpg", ".png"]
-                        files = [entry.name for entry in os.scandir(f'{input_folder}/.') if
-                                 entry.is_file() and os.path.splitext(entry.name)[1] in file_types]
-                except IndexError:
+            else:
+                print(f'{args[nxt_pos + 1]}')
+                input_folder = args[nxt_pos + 1]
+        except IndexError:
+            print('Please enter an input as images folder')
+        if '-o' in args:
+            next_pos = args.index('-o')
+            try:
+                if not args[next_pos + 1]:
                     print('Please enter an output folder to save images')
-                for i in files:
-                    if '--filters' in args:
-                        pos = args.index('--filters')
-                        if '--filters' == args[-1]:
-                            print('Please add filter to apply')
-                        else:
-                            id = args[pos + 1]
-                            filtre = id.split('|')
-                            img = cv2.imread(f'{input_folder}{i}')
-                            for item in filtre:
-                                if item.startswith('grayscale'):
-                                    img = grayscale.grayscale(img)
-                                elif item.startswith('zeteam'):
-                                    img = zeteam.ze_team(img)
-                                elif item.startswith('blur'):
-                                    number = item.split(':')
-                                    try:
-                                        intensity = int(number[1])
-                                        img = gblur.gaussian_blur(img, intensity)
-                                    except IndexError:
-                                        print('Please enter a value as filter intensity')
-                                    except ValueError:
-                                        print('Please enter an int as filter intensity')
-                                elif item.startswith('dilate'):
-                                    number = item.split(':')
-                                    try:
-                                        intensity = int(number[1])
-                                        img = dilate_effect.dilate(img, intensity)
-                                    except IndexError:
-                                        print('Please enter a value as filter intensity')
-                                    except ValueError:
-                                        print('Please enter an int as filter intensity')
-                                elif item.startswith('message'):
-                                    number = item.split(':')
-                                    try:
-                                        msg = str(number[1])
-                                        img = gmsg.message(img, msg)
-                                    except IndexError:
-                                        print('Please enter a message as filter value')
+                else:
+                    print(f'{args[next_pos + 1]}')
+                    output_folder = args[next_pos + 1]
+                    file_types = [".jpg", ".png"]
+                    files = [entry.name for entry in os.scandir(f'{input_folder}/.') if
+                             entry.is_file() and os.path.splitext(entry.name)[1] in file_types]
+            except IndexError:
+                print('Please enter an output folder to save images')
+            for i in files:
+                if '--filters' in args:
+                    pos = args.index('--filters')
+                    if '--filters' == args[-1]:
+                        print('Please add filter to apply')
+                    else:
+                        id = args[pos + 1]
+                        filtre = id.split('|')
+                        img = cv2.imread(f'{input_folder}{i}')
+                        for item in filtre:
+                            if item.startswith('grayscale'):
+                                img = grayscale.grayscale(img)
+                            elif item.startswith('zeteam'):
+                                img = zeteam.ze_team(img)
+                            elif item.startswith('blur'):
+                                number = item.split(':')
                                 try:
-                                    cv2.imwrite(f'{output_folder}__{i}', img)
-                                except cv2.error:
-                                    print("")
+                                    intensity = int(number[1])
+                                    img = gblur.gaussian_blur(img, intensity)
+                                except IndexError:
+                                    print('Please enter a value as filter intensity')
+                                except ValueError:
+                                    print('Please enter an int as filter intensity')
+                            elif item.startswith('dilate'):
+                                number = item.split(':')
+                                try:
+                                    intensity = int(number[1])
+                                    img = dilate_effect.dilate(img, intensity)
+                                except IndexError:
+                                    print('Please enter a value as filter intensity')
+                                except ValueError:
+                                    print('Please enter an int as filter intensity')
+                            elif item.startswith('message'):
+                                number = item.split(':')
+                                try:
+                                    msg = str(number[1])
+                                    img = gmsg.message(img, msg)
+                                except IndexError:
+                                    print('Please enter a message as filter value')
+                            try:
+                                cv2.imwrite(f'{output_folder}__{i}', img)
+                            except cv2.error:
+                                print("")
 

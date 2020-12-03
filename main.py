@@ -35,6 +35,7 @@ input_folder = ""
 output_folder = ""
 
 
+
 args = sys.argv
 
 if len(args) == 1:
@@ -86,14 +87,14 @@ elif '-i' in args:
                     img = cv.imread(f'{input_folder}{i}')
                     for item in filtre:
                         if item.startswith('grayscale'):
-                            edited = grayscale.grayscale(img)
+                            img = grayscale.grayscale(img)
                         elif item.startswith('zeteam'):
                             edited = zeteam.ze_team(img)
                         elif item.startswith('blur'):
                             number = item.split(':')
                             try:
                                 intensity = int(number[1])
-                                edited = gblur.gaussian_blur(img, intensity)
+                                img = gblur.gaussian_blur(img, intensity)
                             except IndexError:
                                 print('Please enter a value as filter intensity')
                             except ValueError:
@@ -102,7 +103,7 @@ elif '-i' in args:
                             number = item.split(':')
                             try:
                                 intensity = int(number[1])
-                                edited = dilate_effect.dilate(img, intensity)
+                                img = dilate_effect.dilate(img, intensity)
                             except IndexError:
                                 print('Please enter a value as filter intensity')
                             except ValueError:
@@ -111,10 +112,10 @@ elif '-i' in args:
                             number = item.split(':')
                             try:
                                 msg = str(number[1])
-                                edited = gmsg.message(img, msg)
+                                img = gmsg.message(img, msg)
                             except IndexError:
                                 print('Please enter a message as filter value')
-            try:
-                cv.imwrite(f'{output_folder}__{i}', edited)
-            except cv.error:
-                print("")
+                    try:
+                        cv.imwrite(f'{output_folder}__{i}', img)
+                    except cv.error:
+                        print("")

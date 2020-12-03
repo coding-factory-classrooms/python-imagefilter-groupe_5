@@ -4,8 +4,8 @@ import os
 
 def grayscale(img):
     try:
-        edited = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         lg.logs(f'Black and White filter applied to picture')
-        return edited
+        return img
     except cv2.error:
         print('Error')

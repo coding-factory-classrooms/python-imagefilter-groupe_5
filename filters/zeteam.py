@@ -6,6 +6,11 @@ import numpy
 
 
 def ze_team(img):
+    '''
+    Apply our filter to an image.
+    :param img: image src (image to apply the filter)
+    :return: edited
+    '''
     try:
         font = cv2.FONT_HERSHEY_SIMPLEX
         bottomLeftCornerOfText = (100, 350)

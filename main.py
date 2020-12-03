@@ -5,14 +5,18 @@ from filters import grayscale, blur as gblur, dilate_effect, zeteam, message as 
 import list_filters as lf
 import cv2
 import configparser
+from art import *
 
 print('')
+Art = text2art('LOGS')
 
 
 # DETECTION DES FILTRES --------------------------
 filters_types = [".py"]
 filtres = [entry.name for entry in os.scandir('filters/') if entry.is_file() and os.path.splitext(entry.name)[1] in filters_types]
 # --------------------------------------------------
+
+
 def help():
     '''
     Display every arguments of the program
@@ -20,19 +24,11 @@ def help():
     print('usage : imagefilter\n -h >> Display informations about the function\n -i [folder] >> Enter a folder in pair with this argument to add it as image "image picker"\n -o [folder] >> Enter a folder in pair with this argument to add it as output folder (for saving images)\n --list-filters >> Display all available filters to apply\n --filters [filters] >> Enter filters in pair with this argument to select wanted effect to apply\n Example: --filter "blur:3|dilate:5|grayscale"')
     logger.logs('Display help page')
 
-# def call_function():
-#     gc.grayscale(image)
-#     de.dilate(image)
-#     gb.gaussian_blur(image)
-#     zt.ze_team(image)
-#     msg.message(image, 'coucou')
-
 
 input_folder = ""
 output_folder = ""
-
-
 args = sys.argv
+
 
 if len(args) == 1:
     print('Please add arguments')
@@ -71,7 +67,7 @@ else:
             if not args[nxt_pos + 1]:
                 print('Please enter an input as images folder')
             else:
-                print(f'{args[nxt_pos + 1]}')
+                # print(f'{args[nxt_pos + 1]}')
                 input_folder = args[nxt_pos + 1]
         except IndexError:
             print('Please enter an input as images folder')
@@ -81,7 +77,7 @@ else:
                 if not args[next_pos + 1]:
                     print('Please enter an output folder to save images')
                 else:
-                    print(f'{args[next_pos + 1]}')
+                    # print(f'{args[next_pos + 1]}')
                     output_folder = args[next_pos + 1]
                     file_types = [".jpg", ".png"]
                     files = [entry.name for entry in os.scandir(f'{input_folder}/.') if
@@ -131,4 +127,10 @@ else:
                                 cv2.imwrite(f'{output_folder}__{i}', img)
                             except cv2.error:
                                 print("")
-
+    print(f'Edited images saved in {output_folder}\n')
+    Question = input('\33[1m' + "Do you want to see the default log file ? (type yes or no): " + '\33[0m')
+    if Question == ("yes"):
+        print('\33[35m' + f"{Art}" + '\33[0m')
+        logger.open_logs('image.log')
+    elif Question == ("no"):
+        print('\033[91m' + "+1 pour l'input ? :)" + '\033[0m')

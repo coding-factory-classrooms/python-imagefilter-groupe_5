@@ -4,6 +4,12 @@ import numpy
 
 
 def message(img, input_txt):
+    '''
+    Add a message to display on a picture.
+    :param img: image src (image to apply the filter)
+    :param input_txt: a str to define the texte of the filter
+    :return: edited
+    '''
     try:
         font = cv2.FONT_HERSHEY_SIMPLEX
         bottomLeftCornerOfText = (100, 350)

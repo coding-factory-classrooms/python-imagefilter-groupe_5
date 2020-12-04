@@ -7,7 +7,6 @@ import cv2
 import configparser
 from art import *
 
-print('')
 Art = text2art('LOGS')
 
 
@@ -129,8 +128,8 @@ else:
                                 print("")
     print(f'Edited images saved in {output_folder}\n')
     Question = input('\33[1m' + "Do you want to see the default log file ? (type yes or no): " + '\33[0m')
-    if Question == ("yes"):
+    if Question == ("yes") or Question == ('y'):
         print('\33[35m' + f"{Art}" + '\33[0m')
         logger.open_logs('image.log')
-    elif Question == ("no"):
+    elif Question == ("no") or Question == ('n'):
         print('\033[91m' + "+1 pour l'input ? :)" + '\033[0m')
